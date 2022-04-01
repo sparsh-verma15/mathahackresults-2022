@@ -283,6 +283,7 @@ const Styles = styled.div`
     @media (max-width: 900px) {
       width: 100%;
     }
+    padding-bottom: 50px;
   }
 
   .chapterListWeb {

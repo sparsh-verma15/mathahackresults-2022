@@ -155,7 +155,7 @@ const Styles = styled.div`
     height: 40vh;
 
     @media (max-width: 920px) {
-      height: 25vh;
+      height: 40vw;
     }
     @media (max-width: 480px) {
       height: 30vh;
