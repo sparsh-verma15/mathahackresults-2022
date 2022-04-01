@@ -9,32 +9,38 @@ const StudentWise = () => {
 
   const [rankings, setrankings] = useState([
     {
-      rank: 1,
       name: "Elon Musk",
-      totalScore: 40,
-      percentScore: 100,
-      correctAnswers: 40,
-      sillyMistakes: 0,
-      misconceptions: 0,
-      unanswered: 0,
-      isShortlisted: true,
+      correct: 40,
+      percentage: 100,
+      sillymistake: 0,
+      misconception: 0,
+      unattempted: 0,
+      stage2_participation: true,
     },
     {
-      rank: 2,
       name: "Jeff Bezoz",
-      totalScore: 39,
-      percentScore: 98,
-      correctAnswers: 39,
-      sillyMistakes: 0,
-      misconceptions: 1,
-      unanswered: 0,
-      isShortlisted: false,
+      correct: 39,
+      percentage: 98,
+      sillymistake: 0,
+      misconception: 1,
+      unattempted: 0,
+      stage2_participation: false,
     },
   ]);
 
   useEffect(async () => {
     try {
-      const response = await axiosInstance.get("URL");
+      const response = await axiosInstance.get("/school/results/");
+      const classData = response.data[standard];
+      const studentData = classData.student_wise_stats;
+
+      let dummyArr = [];
+      for (let student in studentData) {
+        dummyArr.push(studentData[student]);
+      }
+      setrankings(dummyArr);
+
+      //
     } catch (e) {
       console.log("Error getting Data in Student Wise");
     }
@@ -75,11 +81,11 @@ const StudentWise = () => {
             <th>Misconceptions</th>
             <th>Unattempted</th>
           </tr>
-          {filteredRankings.map((element) => {
+          {filteredRankings.map((element, index) => {
             return (
               <tr
                 style={
-                  element.isShortlisted
+                  element.stage2_participation
                     ? {
                         background: "linear-gradient(#fcdfb4,#ffc637)",
                         backgroundOrigin: "border-box",
@@ -87,14 +93,14 @@ const StudentWise = () => {
                     : {}
                 }
               >
-                <td>{element.rank}</td>
+                <td>{index + 1}</td>
                 <td>{element.name}</td>
-                <td>{element.totalScore}</td>
-                <td>{element.percentScore}</td>
-                <td>{element.correctAnswers}</td>
-                <td>{element.sillyMistakes}</td>
-                <td>{element.misconceptions}</td>
-                <td>{element.unanswered}</td>
+                <td>{element.correct}</td>
+                <td>{element.percentage}</td>
+                <td>{element.correct}</td>
+                <td>{element.sillymistake}</td>
+                <td>{element.misconception}</td>
+                <td>{element.unattempted}</td>
               </tr>
             );
           })}
