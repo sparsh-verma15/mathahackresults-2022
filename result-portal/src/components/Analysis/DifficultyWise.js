@@ -63,7 +63,7 @@ const DifficultyWise = (props) => {
   useEffect(async () => {
     try {
       const response = await axiosInstance.get("/school/results/");
-      const classData = response.data[selectedClass];
+      const classData = response.data[standard];
       const chapterData = classData.chapters_num_of_ques;
 
       //for chart 1
