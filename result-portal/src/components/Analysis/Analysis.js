@@ -58,7 +58,7 @@ const Analysis = () => {
   useEffect(async () => {
     try {
       const response = await axiosInstance.get("/school/results/");
-      const classData = response.selectedClass;
+      const classData = response.data[selectedClass];
       const chaptersObject = classData.chapters_num_of_ques;
 
       //setting array of chapters in order
