@@ -9,10 +9,8 @@ import Analysis from "./components/Analysis/Analysis";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router-dom";
 import Responses from "./components/Responses/Responses";
-import ResultsPortalNavbar from "./components/ResultPortalNavbar";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import CoustomSelect from "./components/CoustomSelect";
+
 import { useState } from "react";
 import Login from "./components/Login";
 

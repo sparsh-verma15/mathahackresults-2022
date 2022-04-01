@@ -43,11 +43,12 @@ const ChapterWise = (props) => {
     15: 10,
   });
 
+  //calculating percentage score in each chapter for chart 2
   const CalculateScorePercentage = (obj1, obj2) => {
     const percScoreInChapter = {};
     for (let element in obj1) {
       percScoreInChapter[element] = (
-        (obj1[element] / obj2[element]) *
+        (obj1[element] / (obj2[element] * 4)) *
         100
       ).toFixed(0);
     }
@@ -56,7 +57,25 @@ const ChapterWise = (props) => {
 
   useEffect(async () => {
     try {
-      const response = await axiosInstance.get("url");
+      const response = await axiosInstance.get("/school/results/");
+      const classData = response.selectedClass;
+      const chaptersObject = classData.chapters_num_of_ques;
+
+      //setting no of ques data
+      let dummyobj1 = {};
+      for (let element in chaptersObject) {
+        dummyobj1[element] = chaptersObject[element].total_question;
+      }
+      setNoOfQuesData(dummyobj1);
+
+      //setting no of correct questions data
+      let dummyobj2 = {};
+      for (let element in chaptersObject) {
+        dummyobj2[element] = chaptersObject[element].averege;
+      }
+      setNoOfQuesCorrectData(dummyobj2);
+
+      //
     } catch (error) {
       console.log("Error getting data in concept wise");
     }
@@ -132,7 +151,7 @@ const Styles = styled.div`
   }
   .chartContainer {
     overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: scroll;
     height: 40vh;
 
     @media (max-width: 920px) {

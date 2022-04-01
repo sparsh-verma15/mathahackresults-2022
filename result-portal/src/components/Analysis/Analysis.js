@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DifficultyWise from "./DifficultyWise";
 import ConceptWise from "./ConceptWise";
@@ -6,11 +6,17 @@ import StudentWise from "./StudentWise";
 import Round2List from "./Round2List";
 import { useNavigate } from "react-router-dom";
 import CoustomSelect from "../CoustomSelect";
+import axios from "axios";
+import { axiosInstance } from "../../lib/axiosAPI";
 
 export const ClassContext = React.createContext("1"); //import context wherever needed
 
 const Analysis = () => {
   const [option, setOption] = useState(1); //0 for conceptwise 1 for difficulty wise 2 for studentwise
+  const [selectedClass, setSelectedClass] = useState(1);
+  const handleClassChange = (s) => {
+    setSelectedClass(s.value);
+  };
 
   //conceptwise changes to chapter wise
 
@@ -29,6 +35,7 @@ const Analysis = () => {
 
   const [chapterListArray, setChapterListArray] = useState([
     //passed as props to conceptwise and diff wise
+    //if get request working, make this an empty array
     "Real Numbers",
     "Polynomials",
     "Pair Of Linear Equations In Two Variables",
@@ -46,10 +53,43 @@ const Analysis = () => {
     "Probability",
   ]);
 
-  const [selectedClass, setSelectedClass] = useState(1);
-  const handleClassChange = (s) => {
-    setSelectedClass(s.value);
-  };
+  const [sortedChpaterList, setSortedChapterList] = useState([]);
+
+  useEffect(async () => {
+    try {
+      const response = await axiosInstance.get("/school/results/");
+      const classData = response.selectedClass;
+      const chaptersObject = classData.chapters_num_of_ques;
+
+      //setting array of chapters in order
+      let chArr = [];
+      for (let element in chaptersObject) {
+        chArr.push(element);
+      }
+      setChapterListArray(chArr);
+
+      // let numberArray = []; //array with randomly ordered chapter numbers
+      // for (let element in chaptersObject) {
+      //   numberArray.push(element.chapter_number);
+      // }
+
+      // numberArray.sort(function (a, b) {
+      //   return a - b;
+      // }); //array with sorted chapter numbers
+
+      // let chapterNumberObject = {}; //object with key as chapter number and value as chapter name
+      // for (let i in numberArray) {
+      //   for (let element in chaptersObject) {
+      //     if (element.chapter_number === i) {
+      //       chapterNumberObject[i] = element;
+      //     }
+      //   }
+      // }
+      // //Now we have chapter number and name in an order in chapterNumberObject
+    } catch (error) {
+      console.log("Error Getting data in Analysis");
+    }
+  }, [selectedClass]);
 
   const onDesktop = () => {
     if (window.innerWidth >= 900) {
@@ -58,17 +98,15 @@ const Analysis = () => {
     return false;
   };
 
-  let navigate = useNavigate(); //for back button implentation
-
-  const difficultyLevel = "Hard";
-  let diffColor;
-  if (difficultyLevel === "Hard") {
-    diffColor = "#f1480b";
-  } else if (difficultyLevel === "Moderate") {
-    diffColor = "#fda50f";
-  } else {
-    diffColor = "#06dc5c";
-  }
+  // const difficultyLevel = "Hard";
+  // let diffColor;
+  // if (difficultyLevel === "Hard") {
+  //   diffColor = "#f1480b";
+  // } else if (difficultyLevel === "Moderate") {
+  //   diffColor = "#fda50f";
+  // } else {
+  //   diffColor = "#06dc5c";
+  // }
   return (
     <Styles>
       <ClassContext.Provider value={selectedClass}>

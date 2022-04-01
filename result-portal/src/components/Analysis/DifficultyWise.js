@@ -9,44 +9,28 @@ import { ClassContext } from "./Analysis";
 const DifficultyWise = (props) => {
   const standard = useContext(ClassContext);
 
-  const chaptersData = {
-    1: 4,
-    2: 9,
-    3: 2,
-    4: 4,
-    5: 9,
-    6: 2,
-    7: 4,
-    8: 9,
-    9: 2,
-    10: 4,
-    11: 7,
-    12: 8,
-    13: 6,
-    14: 1,
-    15: 12,
-  };
-  const diffData = {
+  const [diffData, setDiffData] = useState({
     1: "Easy",
-    2: "Moderate",
+    2: "medium",
     3: "Hard",
     4: "Easy",
-    5: "Moderate",
+    5: "medium",
     6: "Hard",
     7: "Easy",
-    8: "Moderate",
+    8: "medium",
     9: "Hard",
     10: "Easy",
-    11: "Moderate",
+    11: "medium",
     12: "Hard",
     13: "Easy",
-    14: "Moderate",
+    14: "medium",
     15: "Hard",
-  };
+  });
+
   const colorsData2 = Object.keys(diffData).map((element) => {
     if (diffData[element].toLowerCase() === "easy") {
       return "#06dc5c";
-    } else if (diffData[element].toLowerCase() === "moderate") {
+    } else if (diffData[element].toLowerCase() === "medium") {
       return "#fda50f";
     } else {
       return "#f1480b";
@@ -54,12 +38,12 @@ const DifficultyWise = (props) => {
   });
 
   //for calculating length of bars in diffwise chart
-  const diffOfChapterLength = {};
+  let diffOfChapterLength = {};
   for (let element in diffData) {
     if (diffData[element].toLowerCase() === "easy") {
       diffOfChapterLength[element] = 5;
     }
-    if (diffData[element].toLowerCase() === "moderate") {
+    if (diffData[element].toLowerCase() === "medium") {
       diffOfChapterLength[element] = 10;
     }
     if (diffData[element].toLowerCase() === "hard") {
@@ -77,7 +61,26 @@ const DifficultyWise = (props) => {
 
   useEffect(async () => {
     try {
-      const response = await axiosInstance.get("url");
+      const response = await axiosInstance.get("/school/results/");
+      const classData = response.selectedClass;
+      const chapterData = classData.chapters_num_of_ques;
+
+      //for chart 1
+      setChart1Data({
+        Easy: classData.difficulty_num_of_questions.easy,
+        Moderate: classData.difficulty_num_of_questions.medium,
+        Difficult: classData.difficulty_num_of_questions.hard,
+      });
+      //
+
+      //for chart 2
+      let dummyObj = {};
+      for (let element in chapterData) {
+        dummyObj[element] = chapterData[element].chapter_difficulty;
+      }
+      setDiffData(dummyObj);
+
+      //
     } catch (error) {
       console.log("Error getting data in difficulty wise");
     }
@@ -114,7 +117,6 @@ const DifficultyWise = (props) => {
           </div>
           <div className="diffheading">Difficulty Level of each Chapter</div>
           <div className="difficultyLegend">
-            {/* <div style={{ textAlign: "center" }}>Legend</div> */}
             <div style={{ color: "#06dc5c" }}>
               Easy <BsFillSquareFill />
             </div>
@@ -172,9 +174,8 @@ const Styles = styled.div`
   }
   .chartContainer {
     overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: scroll;
     height: 40vh;
-
     @media (max-width: 920px) {
       height: 25vh;
     }
