@@ -27,7 +27,8 @@ const DifficultyWise = (props) => {
     15: "Hard",
   });
 
-  const colorsData2 = Object.keys(diffData).map((element) => {
+  //calcualtes array of colors based on chapter difficulty
+  const colorsData2dummy = Object.keys(diffData).map((element) => {
     if (diffData[element].toLowerCase() === "easy") {
       return "#06dc5c";
     } else if (diffData[element].toLowerCase() === "medium") {
@@ -37,17 +38,17 @@ const DifficultyWise = (props) => {
     }
   });
 
-  //for calculating length of bars in diffwise chart
-  let diffOfChapterLength = {};
+  //for calculating length of bars based on chapter difficulty
+  let diffOfChapterLengthdummy = {};
   for (let element in diffData) {
     if (diffData[element].toLowerCase() === "easy") {
-      diffOfChapterLength[element] = 5;
+      diffOfChapterLengthdummy[element] = 5;
     }
     if (diffData[element].toLowerCase() === "medium") {
-      diffOfChapterLength[element] = 10;
+      diffOfChapterLengthdummy[element] = 10;
     }
     if (diffData[element].toLowerCase() === "hard") {
-      diffOfChapterLength[element] = 15;
+      diffOfChapterLengthdummy[element] = 15;
     }
   }
 
@@ -56,8 +57,8 @@ const DifficultyWise = (props) => {
     Moderate: 20,
     Difficult: 15,
   });
-  const [chart2Data, setChart2Data] = useState(diffOfChapterLength);
-  const [colorsChart2, setcolorsChart2] = useState(colorsData2);
+  const [chart2Data, setChart2Data] = useState(diffOfChapterLengthdummy);
+  const [colorsChart2, setcolorsChart2] = useState(colorsData2dummy);
 
   useEffect(async () => {
     try {
@@ -79,6 +80,31 @@ const DifficultyWise = (props) => {
         dummyObj[element] = chapterData[element].chapter_difficulty;
       }
       setDiffData(dummyObj);
+
+      const colorsData2 = Object.keys(diffData).map((element) => {
+        if (diffData[element].toLowerCase() === "easy") {
+          return "#06dc5c";
+        } else if (diffData[element].toLowerCase() === "medium") {
+          return "#fda50f";
+        } else {
+          return "#f1480b";
+        }
+      });
+      setcolorsChart2(colorsData2); //colors of chart 2
+
+      let diffOfChapterLength = {};
+      for (let element in diffData) {
+        if (diffData[element].toLowerCase() === "easy") {
+          diffOfChapterLength[element] = 5;
+        }
+        if (diffData[element].toLowerCase() === "medium") {
+          diffOfChapterLength[element] = 10;
+        }
+        if (diffData[element].toLowerCase() === "hard") {
+          diffOfChapterLength[element] = 15;
+        }
+      }
+      setChart2Data(diffOfChapterLength); //set bar length of each chapter
 
       //
     } catch (error) {
