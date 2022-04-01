@@ -91,15 +91,14 @@ const Styles = styled.div`
     font-size: 36px;
   }
   .douhgnutContainer {
-    width: 22vw;
+    width: 350px;
     margin: 2vw;
     @media (max-width: 900px) {
       margin: auto;
-      width: 30vw;
     }
-    @media (max-width: 480px) {
+    @media (max-width: 750px) {
       margin: auto;
-      width: 50vw;
+      width: 300px;
     }
   }
   .showOnMobile {

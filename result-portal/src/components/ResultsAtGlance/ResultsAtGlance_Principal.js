@@ -181,11 +181,17 @@ const Styles = styled.div`
 
   .doughnutContainer {
     width: 33%;
-    @media (max-width: 1000px) {
+    @media (max-width: 1400px) {
       width: 60vw;
       margin: auto;
+      margin-top: 0;
     }
-    @media (max-width: 480px) {
+    @media (max-width: 1100px) {
+      width: 65vw;
+      margin: auto;
+      margin-top: 0;
+    }
+    @media (max-width: 700px) {
       width: 100vw;
     }
   }
