@@ -64,28 +64,9 @@ const Analysis = () => {
       //setting array of chapters in order
       let chArr = [];
       for (let element in chaptersObject) {
-        chArr.push(element);
+        chArr.push(chaptersObject[element].name);
       }
       setChapterListArray(chArr);
-
-      // let numberArray = []; //array with randomly ordered chapter numbers
-      // for (let element in chaptersObject) {
-      //   numberArray.push(element.chapter_number);
-      // }
-
-      // numberArray.sort(function (a, b) {
-      //   return a - b;
-      // }); //array with sorted chapter numbers
-
-      // let chapterNumberObject = {}; //object with key as chapter number and value as chapter name
-      // for (let i in numberArray) {
-      //   for (let element in chaptersObject) {
-      //     if (element.chapter_number === i) {
-      //       chapterNumberObject[i] = element;
-      //     }
-      //   }
-      // }
-      // //Now we have chapter number and name in an order in chapterNumberObject
     } catch (error) {
       console.log("Error Getting data in Analysis");
     }
@@ -98,15 +79,6 @@ const Analysis = () => {
     return false;
   };
 
-  // const difficultyLevel = "Hard";
-  // let diffColor;
-  // if (difficultyLevel === "Hard") {
-  //   diffColor = "#f1480b";
-  // } else if (difficultyLevel === "Moderate") {
-  //   diffColor = "#fda50f";
-  // } else {
-  //   diffColor = "#06dc5c";
-  // }
   return (
     <Styles>
       <ClassContext.Provider value={selectedClass}>

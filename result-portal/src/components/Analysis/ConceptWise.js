@@ -48,7 +48,7 @@ const ChapterWise = (props) => {
     const percScoreInChapter = {};
     for (let element in obj1) {
       percScoreInChapter[element] = (
-        (obj1[element] / (obj2[element] * 4)) *
+        (obj1[element] / obj2[element]) *
         100
       ).toFixed(0);
     }
